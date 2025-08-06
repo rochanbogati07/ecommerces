@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<legend>This is the cart page</legend>
+
+<table border="1">
+  <tr>
+    <th>Product</th>
+    <th>Quantity</th>
+    <th>Colour</th>
+    <th>Size</th>
+    <th>Brand</th>
+    <th>Date Added</th>
+  </tr>
+
+  {% for info in cartitems %}
+  <tr>
+    <td>{{ info.product__name }}</td>
+    <td>{{ info.quantity }}</td>
+    <td>{{ info.colour }}</td>
+    <td>{{ info.size }}</td>
+    <td>{{ info.brand }}</td>
+    <td>{{ info.data_added }}</td>
+  </tr>
+  {% empty %}
+  <tr><td colspan="6">No items in cart.</td></tr>
+  {% endfor %}
+</table>
+
+<br>
+
+<h3>Cart Info:</h3>
+{% for c in cart %}
+  <p>Added on: {{ c.added_date }}</p>
+  <p>By user: {{ c.user__username }}</p>
+{% endfor %}
+
+{% endblock content %}
