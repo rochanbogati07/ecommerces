@@ -47,23 +47,29 @@
         <i class="bi bi-camera"></i>
         <h1 class="sitename">New Gen Shoes</h1>
       </a>
+
       <nav id="navmenu" class="navmenu">
         <ul>
           <li><a href="index.html" class="active">Home<br></a></li>
-   
           <li><a href="cartitem">Cart</a></li>
-          <li class="dropdown"><a href="#"><span>Authentication</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+
+          <!-- Authentication Dropdown -->
+          <li class="dropdown">
+            <a href="#"><span>Authentication</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
               <li><a href="login">Login</a></li>
               <li><a href="register">Register</a></li>
-           
             </ul>
-          <li class="dropdown"><a href="gallery.html"><span>Shoes Type</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-            <ul>
+          </li> <!-- ✅ properly closed -->
 
-              <li class="dropdown"><a href="#"><span>Premium Leather Shoes</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+          <!-- Shoes Type Dropdown -->
+          <li class="dropdown">
+            <a href="gallery.html"><span>Shoes Type</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+            <ul>
+              <li class="dropdown">
+                <a href="#"><span>Premium Leather Shoes</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
                 <ul>
-                  <li><a href="#">Dr.Martin</a></li>
+                  <li><a href="#">Dr. Martin</a></li>
                   <li><a href="#">Classic Chelsea Boot</a></li>
                   <li><a href="#">Timberland Boot</a></li>
                   <li><a href="#">Harley Davidson Boot</a></li>
@@ -74,10 +80,10 @@
               <li><a href="gallery.html">College Shoes</a></li>
               <li><a href="gallery.html">Party Shoes</a></li>
               <li><a href="gallery.html">Futsal Shoes</a></li>
-              <li><a href="gallery.html">Shoes on sale</a></li>
+              <li><a href="gallery.html">Shoes on Sale</a></li>
             </ul>
           </li>
- 
+
           <li><a href="{% url 'contact' %}">Contact Us</a></li>
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
@@ -97,15 +103,22 @@
 
     <!-- Hero Section -->
     <section id="hero" class="hero section">
-
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-6 text-center" data-aos="fade-up" data-aos-delay="100">
-            <h2><span>We Welcome You to</span><span class="underlight">New Gen Shoes</span><br>a reliable footwear brand </h2>
-
+            <h2>
+              <span>We Welcome You to</span>
+              <span class="underlight">New Gen Shoes</span><br>
+              a reliable footwear brand
+            </h2>
           </div>
         </div>
       </div>
+    </section>
+
+  </main>
+</body>
+
 
     
 <div class="product-container">
