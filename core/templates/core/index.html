@@ -40,7 +40,7 @@
 
 <body class="index-page">
 
-  <header id="header" class="header d-flex align-items-center sticky-top">
+  <header id="header" class="header d-flex align-items-center sticky-top" style="background-color: rgb(93, 138, 227);">
     <div class="container-fluid position-relative d-flex align-items-center justify-content-between">
 
       <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
@@ -102,7 +102,7 @@
   <main class="main">
 
     <!-- Hero Section -->
-    <section id="hero" class="hero section">
+    <section id="hero" class="hero section" style="background-color: rgb(101, 127, 195);">
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-6 text-center" data-aos="fade-up" data-aos-delay="100">
@@ -121,16 +121,29 @@
 
 
     
-<div class="product-container">
-  {% for product in products %}
-    <div class="product-box">
-      <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
-      <h2 class="product-name">{{ product.name }}</h2>
-      <p class="product-description">{{ product.description }}</p>
-      <p class="product-price">Rs. {{ product.price }}</p>
-    </div>
-  {% endfor %}
+<div class="container my-5">
+  <h2 class="text-center mb-4">Our Products</h2>
+  <div class="row g-4">
+    {% for product in products %}
+      <div class="col-md-4 col-sm-6">
+        <div class="card h-100 shadow-sm border-0">
+          <img src="{{ product.image.url }}" alt="{{ product.name }}" class="card-img-top img-fluid" style="height: 250px; object-fit: cover;">
+          <div class="card-body text-center">
+            <h5 class="card-title fw-semibold">{{ product.name }}</h5>
+            <p class="card-text text-muted small">{{ product.description|truncatewords:20 }}</p>
+            <p class="card-text text-primary fw-bold fs-5">Rs. {{ product.price }}</p>
+            <a href="#" class="btn btn-outline-primary btn-sm mt-2">View Details</a>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <div class="col-12 text-center">
+        <p class="text-muted">No products available at the moment.</p>
+      </div>
+    {% endfor %}
+  </div>
 </div>
+
 
    
   </main>

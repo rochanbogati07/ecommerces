@@ -1,37 +1,67 @@
 {% extends "base.html" %}
+{% block title %}Cart{% endblock title %}
+
 {% block content %}
-<legend>This is the cart page</legend>
 
-<table border="1">
-  <tr>
-    <th>Product</th>
-    <th>Quantity</th>
-    <th>Colour</th>
-    <th>Size</th>
-    <th>Brand</th>
-    <th>Date Added</th>
-  </tr>
+<div class="container my-5">
+  <div class="card shadow-lg p-4" style="border-radius: 1rem;">
+    <div class="card-body">
+      <h2 class="text-center text-primary fw-bold mb-4">🛒 Your Shopping Cart</h2>
 
-  {% for info in cartitems %}
-  <tr>
-    <td>{{ info.product__name }}</td>
-    <td>{{ info.quantity }}</td>
-    <td>{{ info.colour }}</td>
-    <td>{{ info.size }}</td>
-    <td>{{ info.brand }}</td>
-    <td>{{ info.data_added }}</td>
-  </tr>
-  {% empty %}
-  <tr><td colspan="6">No items in cart.</td></tr>
-  {% endfor %}
-</table>
+```
+  {% if cartitems %}
+  <div class="table-responsive">
+    <table class="table table-striped table-hover align-middle">
+      <thead class="table-primary text-center">
+        <tr>
+          <th scope="col">Product</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Colour</th>
+          <th scope="col">Size</th>
+          <th scope="col">Brand</th>
+          <th scope="col">Date Added</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for info in cartitems %}
+        <tr class="text-center">
+          <td>{{ info.product__name }}</td>
+          <td>{{ info.quantity }}</td>
+          <td>{{ info.colour }}</td>
+          <td>{{ info.size }}</td>
+          <td>{{ info.brand }}</td>
+          <td>{{ info.data_added }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="alert alert-info text-center mt-3" role="alert">
+    No items in your cart yet.
+  </div>
+  {% endif %}
 
-<br>
+  <hr class="my-4">
 
-<h3>Cart Info:</h3>
-{% for c in cart %}
-  <p>Added on: {{ c.added_date }}</p>
-  <p>By user: {{ c.user__username }}</p>
-{% endfor %}
+  <div class="cart-info">
+    <h4 class="fw-semibold text-secondary mb-3">🧾 Cart Details</h4>
+    {% if cart %}
+      {% for c in cart %}
+        <p><strong>Added On:</strong> {{ c.added_date }}</p>
+        <p><strong>User:</strong> {{ c.user__username }}</p>
+      {% endfor %}
+    {% else %}
+      <p class="text-muted">No cart details available.</p>
+    {% endif %}
+  </div>
 
+  <div class="text-center mt-4">
+    <a href="{% url 'homepage' %}" class="btn btn-outline-primary btn-lg">← Continue Shopping</a>
+  </div>
+</div>
+```
+
+  </div>
+</div>
 {% endblock content %}
