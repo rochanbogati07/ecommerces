@@ -8,7 +8,18 @@
     <div class="card-body">
       <h3 class="text-center mb-4 fw-bold text-primary">Create Your Account</h3>
 
-```
+  <!-- ✅ Message display -->
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert 
+              {% if message.tags == 'success' %}alert-success
+              {% elif message.tags == 'error' %}alert-danger
+              {% else %}alert-info{% endif %}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+      
   <form method="post" action="{% url 'register' %}">
     {% csrf_token %}
     <div class="mb-3">

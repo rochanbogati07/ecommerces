@@ -28,26 +28,13 @@ class Cart(models.Model):
         return f'cart of {self.user.username} - last updated on {self.added_date}'
 
 class Cartitem(models.Model):
-    carts=models.ForeignKey(Cart, on_delete=models.CASCADE)
-    product=models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity=models.PositiveIntegerField() 
-    colour=models.CharField(null=True, blank=True, max_length=50, default='Black')
-    size=models.CharField( blank=True, null=True,max_length=10, choices=[
-        ('S', 'Small'),
-        ('M', 'Medium'),
-        ('L', 'Large'),
-        ('XL', 'Extra Large')
-    ])
-    brand=models.CharField(blank=True, null=True,max_length=100, choices=[
-        ('Nike', 'Nike'),
-        ('Adidas', 'Adidas'),
-        ('Puma', 'Puma'),
-        ('Reebok', 'Reebok')
-    ])
-    data_added=models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)  # 👈 link each cart item to a user
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+    added_at = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self)-> str:
-        return f'{self.product.name} - {self.quantity} added on {self.data_added}'
+    def __str__(self):
+        return f"{self.product.name} ({self.quantity}) - {self.user.username}"
     
 class Order(models.Model):
     product=models.ForeignKey(Product, on_delete=models.CASCADE)

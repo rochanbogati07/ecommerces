@@ -6,9 +6,14 @@ from .models import Account
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from .models import Cart,Cartitem
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect, get_object_or_404
 
-class Homepage(View):
-    def get(self,request):
+@login_required
+
+def Homepage(request):
+    
         products=Product.objects.all()
         return render(request,'core/index.html',{'products':products})
     
@@ -20,24 +25,27 @@ class Orderview(View):
     def get(self, request):
         query=Order.objects.all()
         return render(request, 'core/order.html', {'orders': query})
-    
+
 class Register(View):
-    def get(self,request):
+    def get(self, request):
         return render(request, 'core/register.html')
-    def post(self,request):
-        username=request.POST.get('username')
-        email=request.POST.get('email')
-        password=request.POST.get('password')
+
+    def post(self, request):
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+
         if User.objects.filter(username=username).exists():
-            return render(request, 'core/register.html', {'error': 'Username already exists'})
+            messages.error(request, "Username already exists ❌")
+            return redirect('register')  # ✅ redirect so message shows
         else:
-            user=User.objects.create_user(
+            user = User.objects.create_user(
                 username=username,
                 email=email,
                 password=password
             )
-            return render(request, 'core/register.html', {'success': 'Account created succesfully'})
-
+            messages.success(request, "Account created successfully 🎉 You can now log in.")
+            return redirect('login')  # ✅ redirect to login page
 
 
 class Login(View):
@@ -51,15 +59,16 @@ class Login(View):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
+            messages.success(request, "Logged in successfully ✅")  # ✅ this runs before redirect
             return redirect('homepage')
         else:
-            return render(request, 'core/login.html', {'error': 'Invalid credentials'})
-
+            messages.error(request, "Invalid username or password ❌")  # ✅ add error message
+            return redirect('login')  # redirect so message displays
 
 class Cartview(View):
     def get(self, request):
         user = request.user
-        cart = Cart.objects.all().values('added_date', 'user__username')
+        cart = Cart.objects.filter(user=request.user)
         cartitems = Cartitem.objects.all().values(
             'product__name', 'quantity', 'colour', 'size', 'brand', 'data_added'
         )
@@ -68,3 +77,26 @@ class Cartview(View):
             'cartitems': cartitems
         }
         return render(request, 'core/cart.html', context)
+    
+
+
+def add_to_cart(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    cart_item, created = Cartitem.objects.get_or_create(
+        user=request.user,            # 👈 assign current user
+        product=product
+    )
+    if not created:
+        cart_item.quantity += 1
+        cart_item.save()
+    messages.success(request, f"{product.name} added to your cart 🛒")
+    return redirect('cart_view')
+
+def cart_view(request):
+    cart_items = Cartitem.objects.filter(user=request.user)  # 👈 only user’s items
+    total_price = sum(item.product.price * item.quantity for item in cart_items)
+    return render(request, 'core/cart.html', {
+        'cart_items': cart_items,
+        'total_price': total_price
+    })
+
